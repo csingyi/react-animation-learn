@@ -18,105 +18,33 @@ import {
 export default class animations extends Component {
   constructor () {
     super()
-    this.animatedValue = new Animated.Value(0)
+    this.springValue = new Animated.Value(0.3)
   }
 
-  componentDidMount() {
-    this.animate()
-  }
-
-  animate() {
-    this.animatedValue.setValue(0)
-    Animated.timing(
-      this.animatedValue,
-      {
-        toValue: 1,
-        duration: 2000,
-        easing: Easing.linear
-      }
-    ).start(() => this.animate())
-  }
+ 
+ spring () {
+   this.springValue.setValue(0.3)
+   Animated.spring(
+     this.springValue,
+     {
+       toValue: 1,
+       friction: 1
+     }
+   ).start()
+ }
   
  
   render() {
 
-   const marginLeft = this.animatedValue.interpolate({
-     inputRange: [0, 1],
-     outputRange: [0, 300]
-   }) 
-
-   const opacity = this.animatedValue.interpolate({
-     inputRange: [0, 0.5, 1],
-     outputRange: [0, 1, 0]
-   })
-
-   const movingMargin = this.animatedValue.interpolate({
-     inputRange: [0, 0.5, 1],
-     outputRange: [0, 300, 0]
-   })
-
-   const textSize = this.animatedValue.interpolate({
-     inputRange: [0, 0.5, 1],
-     outputRange: [18, 32, 18]
-   })
-
-   const rotateX = this.animatedValue.interpolate({
-     inputRange: [0, 0.5, 1],
-     outputRange: ['0deg', '180deg', '0deg']
-   })
+   
     return (
       <View style={styles.container}>
-        <Animated.View
-           style={{
-             marginLeft,
-             height: 30,
-             width: 40,
-             backgroundColor: 'red'
-           }}
-           />
-
-                <Animated.View
-           style={{
-             opacity,
-             marginTop:10,
-             height: 30,
-             width: 40,
-             backgroundColor: 'blue'
-           }}
-           />
-
-                <Animated.View
-           style={{
-             marginLeft: movingMargin,
-             marginTop: 10,
-             height: 30,
-             width: 40,
-             backgroundColor: 'orange'
-           }}
-           />
-
-                <Animated.Text
-           style={{
-             marginTop: 10,
-             fontSize: textSize,
-             height: 30,
-             width: 40,
-             backgroundColor: 'green'
-           }}
-           />
-
-                <Animated.View
-           style={{
-             transform:[{rotateX}],
-             marginLeft,
-             marginTop: 50,
-             height: 40,
-             width: 80,
-             backgroundColor: 'black'
-           }}
-           >
-          <Text style={{color: 'white'}}>Hello , i am jack</Text>
-           </Animated.View>
+        <Text
+          style={{marginBottom: 100}}
+          onPress = {this.spring.bind(this)}>石原里美</Text>
+          <Animated.Image
+          style={{width:227, height:200, transform:[{scale:this.springValue}]}}
+          source={{uri:'http://i1.wp.com/rastaneko-blog.com/wp-content/uploads/2016/04/df8163826e20c566f77728ee981d14f5.jpg'}}/>
       </View>
     );
   }
@@ -125,7 +53,9 @@ export default class animations extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 150
+    paddingTop: 150,
+    justifyContent:'center',
+    alignItems: 'center'
   }
 });
 
