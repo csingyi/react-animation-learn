@@ -41,12 +41,12 @@ animate() {
       this.animatedValue[item],
       {
         toValue: 1,
-        duration: 50
+        duration: 4000
       }
     )
   })
 
-  Animated.sequence(animations).start()
+  Animated.stagger(10, animations).start()
 }
   
  
